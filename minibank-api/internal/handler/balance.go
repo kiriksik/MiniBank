@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kiriksik/minibank/internal/repository"
+	"github.com/kiriksik/minibank/minibank-api/internal/repository"
 )
 
 func GetBalance(ctx *gin.Context) {

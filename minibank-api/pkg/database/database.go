@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/kiriksik/minibank/config"
+	"github.com/kiriksik/minibank/minibank-api/config"
 	_ "github.com/lib/pq"
 )
 

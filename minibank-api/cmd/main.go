@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kiriksik/minibank/internal/handler"
-	"github.com/kiriksik/minibank/internal/middleware"
-	"github.com/kiriksik/minibank/pkg/database"
+	"github.com/kiriksik/minibank/minibank-api/internal/handler"
+	"github.com/kiriksik/minibank/minibank-api/internal/middleware"
+	"github.com/kiriksik/minibank/minibank-api/pkg/database"
 )
 
 func main() {
@@ -32,7 +32,11 @@ func main() {
 			ctx.JSON(http.StatusOK, gin.H{"message": "authorized!"})
 		})
 		auth.GET("/balance", handler.GetBalance)
-		auth.GET("/transfer", handler.Transfer)
+		auth.POST("/transfer", handler.Transfer)
+		auth.GET("/transactions", handler.GetTransactions)
+		auth.POST("/withdraw", handler.Withdraw)
+		auth.POST("/topup", handler.Withdraw)
+		auth.GET("/summary", handler.GetSummary)
 	}
 
 	log.Println("Starting server on: 8080")

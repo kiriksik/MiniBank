@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/kiriksik/minibank/pkg/database"
+	"github.com/kiriksik/minibank/minibank-api/pkg/database"
 )
 
 func GetBalance(userID int) (float64, error) {
@@ -39,6 +39,10 @@ func Transfer(fromID, toID int, amount float64) error {
 		return err
 	}
 	_, err = tx.Exec("UPDATE balances SET amount = amount + $1 WHERE user_id = $2", amount, toID)
+	if err != nil {
+		return err
+	}
+	_, err = tx.Exec("INSERT INTO transactions (from_user_id, to_user_id, amount) VALUES ($1, $2, $3)", fromID, toID, amount)
 	if err != nil {
 		return err
 	}

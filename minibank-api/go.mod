@@ -1,4 +1,4 @@
-module github.com/kiriksik/minibank
+module github.com/kiriksik/minibank/minibank-api
 
 go 1.24.1
 

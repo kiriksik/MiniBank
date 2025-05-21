@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/kiriksik/minibank/internal/model"
-	"github.com/kiriksik/minibank/internal/repository"
+	"github.com/kiriksik/minibank/minibank-api/internal/model"
+	"github.com/kiriksik/minibank/minibank-api/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 

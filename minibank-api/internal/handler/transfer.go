@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kiriksik/minibank/internal/model"
-	"github.com/kiriksik/minibank/internal/repository"
+	"github.com/kiriksik/minibank/minibank-api/internal/model"
+	"github.com/kiriksik/minibank/minibank-api/internal/repository"
 )
 
 func Transfer(ctx *gin.Context) {
