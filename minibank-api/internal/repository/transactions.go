@@ -40,6 +40,6 @@ func GetTransactions(userID int, filter string, limit, offset int) ([]model.Tran
 		}
 		transactions = append(transactions, transaction)
 	}
-
+	// fmt.Println(transactions)
 	return transactions, nil
 }

@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kiriksik/minibank/minibank-api/internal/model"
 	"github.com/kiriksik/minibank/minibank-api/internal/repository"
 )
 
@@ -28,6 +29,10 @@ func GetTransactions(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch transactions"})
 		return
+	}
+	// fmt.Println(transactions)
+	if transactions == nil {
+		transactions = []model.Transaction{}
 	}
 
 	c.JSON(http.StatusOK, transactions)
