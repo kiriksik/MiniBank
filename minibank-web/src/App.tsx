@@ -1,11 +1,20 @@
 import React, { useEffect, useState, type JSX } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Transfer from './pages/Transfer';
 import Navbar from './components/Navbar';
+
+import { useLocation } from 'react-router-dom';
+import './index.css';
+import './App.css';
+
+
+
+
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const [tokenChecked, setTokenChecked] = useState(false);
@@ -18,7 +27,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   if (!tokenChecked) {
-    return <div className="text-center p-6 text-gray-400">Загрузка...</div>; // можно заменить на спиннер
+    return <div className="text-center p-6 text-gray-400">Загрузка...</div>;
   }
 
   if (!token) {
@@ -28,7 +37,10 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   return (
     <>
       <Navbar />
-      {children}
+      
+      <div className={`app-container ${location.pathname === '/' ? 'no-padding' : ''}`}>
+        {children}
+      </div>
     </>
   );
 };

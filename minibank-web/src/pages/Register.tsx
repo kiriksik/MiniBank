@@ -33,33 +33,30 @@ const Register = () => {
   };
 
   return (
-    <div className="container max-w-md mx-auto mt-20 p-6 border rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Регистрация</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label className="block">
-          Имя пользователя:
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            required
-            className="w-full mt-1 p-2 border rounded"
-          />
-        </label>
-        <label className="block">
-          Пароль:
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            className="w-full mt-1 p-2 border rounded"
-          />
-        </label>
-        <button
-          type="submit"
-          className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
-        >
+    <div className="form-container">
+      <h2 className="form-title">Регистрация</h2>
+      <form onSubmit={handleSubmit}>
+        <label className="form-label" htmlFor="username">Имя пользователя:</label>
+        <input
+          id="username"
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          required
+          className="form-input"
+        />
+
+        <label className="form-label" htmlFor="password">Пароль:</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          className="form-input"
+        />
+
+        <button type="submit" className="btn-success">
           Зарегистрироваться
         </button>
       </form>

@@ -16,8 +16,13 @@ func Transfer(ctx *gin.Context) {
 	}
 
 	fromID := ctx.GetInt("user_id")
+	user, err := repository.GetUserByUsername(input.ToUser)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
 
-	err := repository.Transfer(fromID, input.ToUserID, input.Amount)
+	err = repository.Transfer(fromID, user.ID, input.Amount)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

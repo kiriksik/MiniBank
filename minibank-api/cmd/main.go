@@ -39,7 +39,18 @@ func main() {
 	{
 		auth.Use(middleware.AuthMiddleware())
 		auth.GET("/me", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusOK, gin.H{"message": "authorized!"})
+			username, exists := ctx.Get("username")
+			if !exists {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": "username not found in context"})
+				return
+			}
+			id, exists := ctx.Get("user_id")
+			if !exists {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": "username not found in context"})
+				return
+			}
+
+			ctx.JSON(http.StatusOK, gin.H{"username": username, "id": id})
 		})
 		auth.GET("/balance", handler.GetBalance)
 		auth.POST("/transfer", handler.Transfer)

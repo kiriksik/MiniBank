@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaCreditCard } from 'react-icons/fa';
 
 const Dashboard = () => {
   const [balance, setBalance] = useState<number | null>(null);
@@ -8,22 +9,21 @@ const Dashboard = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const res = await fetch('http://localhost:8080/api/balance', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const res = await fetch('http://localhost:8080/api/balance', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      console.log('Fetch balance response status:', res.status);
-
-      if (res.ok) {
-        const data = await res.json();
-        console.log('Balance data:', data);
-
-        setBalance(data.balance);
-
-      } else {
-        console.error('Ошибка загрузки баланса');
+        if (res.ok) {
+          const data = await res.json();
+          setBalance(data.balance);
+        } else {
+          console.error('Ошибка загрузки баланса');
+        }
+      } catch (error) {
+        console.error('Сервер недоступен:', error);
       }
     };
 
@@ -31,15 +31,20 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6">Dashboard</h1>
-      {balance === null ? (
-        <p className="text-gray-400">Загрузка баланса...</p>
-      ) : (
-        <p className="text-xl">
-          Ваш баланс: <span className="font-bold">{balance.toFixed(2)}</span> ₽
-        </p>
-      )}
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">Добро пожаловать!</h1>
+
+      <div className="balance-card">
+        <div className="balance-info">
+          <p className="balance-label">Ваш баланс</p>
+          {balance === null ? (
+            <p className="balance-loading">Загрузка...</p>
+          ) : (
+            <p className="balance-amount">{balance.toFixed(2)} ₽</p>
+          )}
+        </div>
+        <FaCreditCard size={48} className="balance-icon" />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -32,37 +32,43 @@ export default function Login() {
   };
 
   return (
-    <div className="container max-w-md mx-auto mt-20 p-6 border rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Вход</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label className="block">
-          Имя пользователя:
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            required
-            className="w-full mt-1 p-2 border rounded"
-          />
-        </label>
-        <label className="block">
-          Пароль:
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            className="w-full mt-1 p-2 border rounded"
-          />
-        </label>
-        {error && <p className="text-red-600">{error}</p>}
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
+    <div className="form-container">
+      <h2 className="form-title">Вход</h2>
+      <form onSubmit={handleSubmit}>
+        <label className="form-label" htmlFor="username">Имя пользователя:</label>
+        <input
+          id="username"
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          required
+          className="form-input"
+        />
+
+        <label className="form-label" htmlFor="password">Пароль:</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          className="form-input"
+        />
+
+        {error && <p className="form-error">{error}</p>}
+
+        <button type="submit" className="btn-primary">
           Войти
         </button>
       </form>
+
+      <div className="form-footer">
+        <p>Нет аккаунта?&nbsp;
+          <Link to="/register" className="btn-secondary-link">
+            Зарегистрироваться
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

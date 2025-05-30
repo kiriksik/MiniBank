@@ -12,16 +12,25 @@ func GetTransactions(userID int, filter string, limit, offset int) ([]model.Tran
 	var err error
 
 	query := `
-		SELECT id, from_user_id, to_user_id, amount, created_at
-		FROM transactions
+		SELECT 
+			t.id, 
+			t.from_user_id, 
+			fu.username AS from_username,
+			t.to_user_id, 
+			tu.username AS to_username,
+			t.amount, 
+			t.created_at
+		FROM transactions t
+		LEFT JOIN users fu ON t.from_user_id = fu.id
+		LEFT JOIN users tu ON t.to_user_id = tu.id
 		WHERE 
-		(
-			(from_user_id = $1 AND $2 IN ('', 'out')) OR
-			(to_user_id = $1 AND from_user_id IS NOT NULL AND $2 IN ('', 'in')) OR
-			(to_user_id = $1 AND from_user_id IS NULL AND $2 IN ('', 'topup')) OR
-			(from_user_id = $1 AND to_user_id IS NULL AND $2 IN ('', 'withdraw'))
-		)
-		ORDER BY created_at DESC
+			(
+				(t.from_user_id = $1 AND $2 IN ('', 'out')) OR
+				(t.to_user_id = $1 AND t.from_user_id IS NOT NULL AND $2 IN ('', 'in')) OR
+				(t.to_user_id = $1 AND t.from_user_id IS NULL AND $2 IN ('', 'topup')) OR
+				(t.from_user_id = $1 AND t.to_user_id IS NULL AND $2 IN ('', 'withdraw'))
+			)
+		ORDER BY t.created_at DESC
 		LIMIT $3 OFFSET $4
 	`
 
@@ -34,12 +43,20 @@ func GetTransactions(userID int, filter string, limit, offset int) ([]model.Tran
 	var transactions []model.Transaction
 	for rows.Next() {
 		var transaction model.Transaction
-		err := rows.Scan(&transaction.ID, &transaction.FromUserID, &transaction.ToUserID, &transaction.Amount, &transaction.CreatedAt)
+		err := rows.Scan(
+			&transaction.ID,
+			&transaction.FromUserID,
+			&transaction.FromUsername,
+			&transaction.ToUserID,
+			&transaction.ToUsername,
+			&transaction.Amount,
+			&transaction.CreatedAt,
+		)
 		if err != nil {
 			return nil, err
 		}
 		transactions = append(transactions, transaction)
 	}
-	// fmt.Println(transactions)
+
 	return transactions, nil
 }
